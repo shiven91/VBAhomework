@@ -1,0 +1,30 @@
+Sub loopAllSheet()
+    Dim shiven As Worksheet
+    For Each shiven In Application.Worksheets
+        shiven.Activate
+        Call stock
+    Next shiven
+End Sub
+Sub stock()
+    Dim ticker As String
+    Dim ticker_vol As Double
+        ticker_vol = 0
+    Dim summary_table_row As Integer
+        summary_table_row = 2
+    lastRow = Cells(Rows.Count, 1).End(xlUp).Row
+    lastCol = Cells(1, Columns.Count).End(xlToLeft).Column
+    
+    For i = 2 To lastRow
+        If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+            ticker = Cells(i, 1).Value
+            ticker_vol = ticker_vol + Cells(i, 7).Value
+            Range("I" & summary_table_row).Value = ticker
+            Range("J" & summary_table_row).Value = ticker_vol
+            summary_table_row = summary_table_row + 1
+            ticker_vol = 0
+        Else
+            ticker_vol = ticker_vol + Cells(i, 7).Value
+        End If
+    Next i
+    
+End Sub
